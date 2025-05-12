@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <utility>
 #include <fstream>
-#include <format>
 #include <unordered_set>
 #include <initializer_list>
 
@@ -51,7 +50,7 @@ public:
     void printVertexes();
     std::string getVertexes();
     std::string getEdges();
-    void createDotFile();
+    void createDotFile(int size = 7, int dpi = 200);
 };
 
 #endif

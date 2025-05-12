@@ -243,13 +243,15 @@ std::string graph::getEdges()
     return result;
 }
 
-void graph::createDotFile()
+void graph::createDotFile(int size, int dpi)
 {
     std::unordered_set<std::string> vertexes;
 
     std::ofstream dotFile("graph.dot");
 
     dotFile << "digraph {\n";
+    dotFile << "\tsize=\"" << size << "," << size << "\";\n";
+    dotFile << "\tdpi=" << dpi << ";\n";
 
     for (const auto& edge : *_edges)
     {
