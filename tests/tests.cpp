@@ -42,7 +42,7 @@ TEST(Vertexes_two, Equals)
     EXPECT_EQ(g.getVertexes(), temp);
 }
 
-TEST(Edges_one, Equals)
+TEST(Edges, Equals)
 {
     graph g;
     g.addVertex("A");
@@ -68,7 +68,7 @@ TEST(Edges_one, Equals)
     EXPECT_EQ(g.getEdges(), temp);
 }
 
-TEST(Adjacent_one, Equals)
+TEST(Adjacent, True)
 {
     graph g;
     g.addVertex("A");
@@ -89,7 +89,39 @@ TEST(Adjacent_one, Equals)
     g.removeEdge("B", "C");
     g.removeEdge("C", "D");
 
-    std::string temp {"A -> B value: 10\nD -> A value: 25\n"};
+    EXPECT_TRUE(g.adjacent("A", "B"));
+}
 
-    EXPECT_EQ(g.getEdges(), temp);
+TEST(Neighbours_one, Equals)
+{
+    graph g;
+    g.addVertex("A");
+    g.addVertex("B");
+    g.addVertex("C");
+    g.addVertex("D");
+
+    g.addEdge("A", "B");
+    g.addEdge("A", "C");
+    g.addEdge("A", "D");
+
+    std::vector<std::string> temp {"B", "C", "D"};
+
+    EXPECT_EQ(g.neighbours("A"), temp);
+}
+
+TEST(Neighbours_two, Equals)
+{
+    graph g;
+    g.addVertex("A");
+    g.addVertex("B");
+    g.addVertex("C");
+    g.addVertex("D");
+
+    g.addEdge("A", "B");
+    g.addEdge("A", "C");
+    g.addEdge("A", "D");
+
+    std::vector<std::string> temp {"A"};
+
+    EXPECT_EQ(g.neighbours("B"), temp);
 }

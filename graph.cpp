@@ -172,10 +172,9 @@ std::vector<std::string> graph::neighbours(std::string x) const
         std::string currentY = edge.y;
         
         if (currentX == x)
-            result.push_back(currentX);
-
-        if (currentY == x)
             result.push_back(currentY);
+        else if (currentY == x)
+            result.push_back(currentX);
     }
 
     return result;
