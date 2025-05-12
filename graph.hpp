@@ -26,6 +26,8 @@ private:
     std::vector<edge> *_edges;
     int _size {};
 public:
+    
+
     graph();
     ~graph();
 
@@ -44,7 +46,8 @@ public:
     
     void printMatrix();
     void printVertexes();
-    std::vector<std::pair<std::string, int>> getVertexes();
+    std::string getVertexes();
+    std::string getEdges();
 };
 
 #endif
