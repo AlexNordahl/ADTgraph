@@ -1,5 +1,0 @@
-digraph {
-    A -> B [dir=both];
-    A -> C [dir=both];
-    C -> B [dir=both];
-}
