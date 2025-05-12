@@ -3,16 +3,10 @@
 
 int main(int argc, char const *argv[])
 {    
-    graph g;
-
-    g.addVertex("A");
-    g.addVertex("B");
-    g.addVertex("C");
-    g.addVertex("D");
-    g.addVertex("E");
+    graph g {"A", "B", "C"};
 
     g.addEdge("A", "B", 10);
-    g.addEdge("A", "C", 15);
+    g.addEdge("B", "A", 15);
 
     g.createDotFile();
 

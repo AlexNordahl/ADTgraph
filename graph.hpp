@@ -8,6 +8,7 @@
 #include <fstream>
 #include <format>
 #include <unordered_set>
+#include <initializer_list>
 
 #define DEFAULT_EDGE_VALUE 1
 
@@ -29,6 +30,7 @@ private:
     int _size {};
 public:
     graph();
+    graph(std::initializer_list<std::string> list);
     ~graph();
 
     void addVertex(std::string x);

@@ -7,6 +7,14 @@ graph::graph()
     _edges = new std::vector<edge>();
 }
 
+graph::graph(std::initializer_list<std::string> list) : graph()
+{
+    for (const auto& arg : list)
+    {
+        addVertex(arg);
+    }
+}
+
 graph::~graph()
 {
     delete _matrix;
