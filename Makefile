@@ -5,10 +5,16 @@ make:
 
 clean:
 	rm -f main; \
-	cd tests;
+	rm -f graph.dot; \
+	rm -f mygraph.png
 
 test:
 	cd tests; \
 	g++ tests.cpp ../graph.cpp -lgtest -lgtest_main -pthread -o test; \
 	./test; \
 	rm -f test
+
+plot:
+	make; \
+	./main; \
+	dot -Tpng graph.dot -o mygraph.png

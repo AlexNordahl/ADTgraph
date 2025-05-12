@@ -5,7 +5,9 @@
 #include <vector>
 #include <algorithm>
 #include <utility>
-#include <unordered_map>
+#include <fstream>
+#include <format>
+#include <unordered_set>
 
 #define DEFAULT_EDGE_VALUE 1
 
@@ -35,6 +37,7 @@ public:
     int getVertexValue(std::string x) const;
 
     void addEdge(std::string x, std::string y);
+    void addEdge(std::string x, std::string y, int v);
     void removeEdge(std::string x, std::string y);
     void setEdgeValue(std::string x, std::string y, int v);
     int getEdgeValue(std::string x, std::string y) const;
@@ -46,6 +49,7 @@ public:
     void printVertexes();
     std::string getVertexes();
     std::string getEdges();
+    void createDotFile();
 };
 
 #endif

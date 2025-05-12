@@ -112,6 +112,12 @@ void graph::addEdge(std::string x, std::string y)
     _edges->push_back(edge(x, y, DEFAULT_EDGE_VALUE));
 }
 
+void graph::addEdge(std::string x, std::string y, int v)
+{
+    addEdge(x, y);
+    setEdgeValue(x, y, v);
+}
+
 void graph::removeEdge(std::string x, std::string y)
 {
     int index = -1;
@@ -227,4 +233,30 @@ std::string graph::getEdges()
         result += elem.x + " -> " + elem.y + " value: " + std::to_string(elem.value) + "\n";
     
     return result;
+}
+
+void graph::createDotFile()
+{
+    std::unordered_set<std::string> vertexes;
+
+    std::ofstream dotFile("graph.dot");
+
+    dotFile << "digraph {\n";
+
+    for (const auto& edge : *_edges)
+    {
+        dotFile << "\t " << edge.x << " -> " << edge.y << "[label = " << edge.value << "];\n";
+        vertexes.insert(edge.x);
+        vertexes.insert(edge.y);
+    }
+
+    for (const auto& vertex : *_vertexes)
+    {
+        if (!vertexes.contains(vertex.first))
+            dotFile << "\t " << vertex.first << "\n";
+    }
+    
+    dotFile << "}";
+
+    dotFile.close();
 }
