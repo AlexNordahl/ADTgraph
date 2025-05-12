@@ -44,6 +44,7 @@ public:
     
     void printMatrix();
     void printVertexes();
+    std::vector<std::pair<std::string, int>> getVertexes();
 };
 
 #endif

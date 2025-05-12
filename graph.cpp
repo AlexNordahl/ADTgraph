@@ -186,3 +186,8 @@ void graph::printVertexes()
     for (auto& pair : *_vertexes)
         std::cout << pair.first << ": " << pair.second << std::endl;
 }
+
+std::vector<std::pair<std::string, int>> graph::getVertexes()
+{
+    return *_vertexes;
+}
