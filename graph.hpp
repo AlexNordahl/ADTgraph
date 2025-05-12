@@ -26,8 +26,6 @@ private:
     std::vector<edge> *_edges;
     int _size {};
 public:
-    
-
     graph();
     ~graph();
 
