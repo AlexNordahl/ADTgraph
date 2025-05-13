@@ -17,4 +17,5 @@ test:
 plot:
 	make; \
 	./main; \
-	dot -Tpng graph.dot -o mygraph.png
+	dot -Tpng graph.dot -o mygraph.png; \
+	feh mygraph.png

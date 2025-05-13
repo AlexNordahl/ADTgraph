@@ -10,14 +10,48 @@ graph::graph()
 graph::graph(std::initializer_list<std::string> list) : graph()
 {
     for (const auto& arg : list)
-    {
         addVertex(arg);
-    }
 }
 
 graph::~graph()
 {
     delete _matrix;
+}
+
+graph::graph(const graph &rhs)
+{
+    _matrix = rhs._matrix;
+    _vertexes = rhs._vertexes;
+    _edges = rhs._edges;
+    _size = rhs._size;
+}
+
+graph &graph::operator=(const graph &rhs)
+{
+    _matrix = rhs._matrix;
+    _vertexes = rhs._vertexes;
+    _edges = rhs._edges;
+    _size = rhs._size;
+
+    return *this;
+}
+
+graph::graph(graph &&rhs)
+{
+    _matrix = std::move(rhs._matrix);
+    _vertexes = std::move(rhs._vertexes);
+    _edges = std::move(rhs._edges);
+    _size = std::move(rhs._size);
+}
+
+graph &graph::operator=(graph &&rhs)
+{
+    _matrix = std::move(rhs._matrix);
+    _vertexes = std::move(rhs._vertexes);
+    _edges = std::move(rhs._edges);
+    _size = std::move(rhs._size);
+
+    return *this;
 }
 
 void graph::addVertex(std::string x)

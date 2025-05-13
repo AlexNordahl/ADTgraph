@@ -23,14 +23,19 @@ private:
         int value;
     };
 
-    std::vector<std::vector<int>> *_matrix;
-    std::vector<std::pair<std::string, int>> *_vertexes;
-    std::vector<edge> *_edges;
+    std::vector<std::vector<int>> *_matrix {};
+    std::vector<std::pair<std::string, int>> *_vertexes {};
+    std::vector<edge> *_edges {};
     int _size {};
 public:
     graph();
     graph(std::initializer_list<std::string> list);
     ~graph();
+    graph(const graph &rhs);
+    graph& operator=(const graph &rhs);
+    graph(graph &&rhs);
+    graph& operator=(graph &&rhs);
+
 
     void addVertex(std::string x);
     void removeVertex(std::string x);
