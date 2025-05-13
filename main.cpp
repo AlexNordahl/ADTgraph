@@ -9,9 +9,9 @@ int main(int argc, char const *argv[])
 
     g2 = g1;
 
-    g2.addEdge("A", "B");
-    g2.addEdge("B", "C");
-    g2.addEdge("C", "A");
+    g2.addEdge("A", "B", 10);
+    g2.addEdge("B", "C", 15);
+    g2.addEdge("C", "A", 20);
 
     g2.printMatrix();
     g2.createDotFile();
