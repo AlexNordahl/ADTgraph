@@ -20,17 +20,35 @@ graph::~graph()
 
 graph::graph(const graph &rhs)
 {
-    _matrix = rhs._matrix;
-    _vertexes = rhs._vertexes;
-    _edges = rhs._edges;
+    for (const std::vector<int> elem : *rhs._matrix)
+    {
+        std::vector<int> temp = std::move(elem);
+        _matrix->push_back(temp);
+    }
+
+    for (const std::pair<std::string, int> elem : *rhs._vertexes)
+        _vertexes->push_back(elem);
+
+    for (const edge elem : *rhs._edges)
+        _edges->push_back(elem);
+    
     _size = rhs._size;
 }
 
 graph &graph::operator=(const graph &rhs)
 {
-    _matrix = rhs._matrix;
-    _vertexes = rhs._vertexes;
-    _edges = rhs._edges;
+    for (const std::vector<int> elem : *rhs._matrix)
+    {
+        std::vector<int> temp = std::move(elem);
+        _matrix->push_back(temp);
+    }
+
+    for (const std::pair<std::string, int> elem : *rhs._vertexes)
+        _vertexes->push_back(elem);
+
+    for (const edge elem : *rhs._edges)
+        _edges->push_back(elem);
+    
     _size = rhs._size;
 
     return *this;
@@ -54,15 +72,14 @@ graph &graph::operator=(graph &&rhs)
     return *this;
 }
 
+
 void graph::addVertex(std::string x)
 {
     _matrix->push_back(std::vector<int>(++_size, 0));
 
     _vertexes->push_back(std::pair(x, 0));
     for (auto& row : *_matrix)
-    {
         row.push_back(0);
-    }
 }
 
 void graph::removeVertex(std::string x)
@@ -142,7 +159,7 @@ void graph::addEdge(std::string x, std::string y)
         i++;
     }
 
-    if (xIndex == -1 and yIndex ==-1)
+    if (xIndex == -1 and yIndex == -1)
     {
         std::cerr << "Error: Vertexes not found" << std::endl;
         return;
@@ -234,14 +251,12 @@ void graph::printMatrix()
     for (const auto& vertex : *_vertexes)
         std::cout << vertex.first << " ";
     std::cout << std::endl;
-
-    int i = 0;
+    
     for (const auto& column : *_matrix)
-    {   
+    {      
         for (size_t j = 0; j < _size; j++)
-            std::cout << column.at(i) << " ";
+            std::cout << column.at(j) << " ";
         std::cout << std::endl;
-        i++;
     }
 }
 

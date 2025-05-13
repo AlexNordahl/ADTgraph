@@ -3,12 +3,18 @@
 
 int main(int argc, char const *argv[])
 {    
-    graph g {"A", "B", "C"};
+    graph g1 {"A", "B", "C"};
 
-    g.addEdge("A", "B", 10);
-    g.addEdge("B", "A", 15);
+    graph g2;
 
-    g.createDotFile();
+    g2 = g1;
+
+    g2.addEdge("A", "B");
+    g2.addEdge("B", "C");
+    g2.addEdge("C", "A");
+
+    g2.printMatrix();
+    g2.createDotFile();
 
     return 0;
 }
