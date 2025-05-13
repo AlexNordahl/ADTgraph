@@ -1,7 +1,0 @@
-digraph {
-	size="7,7";
-	dpi=200;
-	 A -> B[label = 1];
-	 B -> C[label = 1];
-	 C -> A[label = 1];
-}
