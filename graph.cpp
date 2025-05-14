@@ -1,11 +1,6 @@
 #include "graph.hpp"
 
-graph::graph()
-{
-    _matrix = new std::vector<std::vector<int>>();
-    _vertexes = new std::vector<std::pair<std::string, int>>();
-    _edges = new std::vector<edge>();
-}
+graph::graph() = default;
 
 graph::graph(std::initializer_list<std::string> list) : graph()
 {
@@ -13,81 +8,67 @@ graph::graph(std::initializer_list<std::string> list) : graph()
         addVertex(arg);
 }
 
-graph::~graph()
-{
-    delete _matrix;
-}
+graph::~graph() = default;
 
 graph::graph(const graph &rhs) : graph()
 {
-    for (const std::vector<int> elem : *rhs._matrix)
+    for (const std::vector<int> elem : rhs._matrix)
     {
         std::vector<int> temp = std::move(elem);
-        _matrix->push_back(temp);
+        _matrix.push_back(temp);
     }
 
-    for (const std::pair<std::string, int> elem : *rhs._vertexes)
-        _vertexes->push_back(elem);
+    for (const std::pair<std::string, int> elem : rhs._vertexes)
+        _vertexes.push_back(elem);
 
-    for (const edge elem : *rhs._edges)
-        _edges->push_back(elem);
+    for (const edge elem : rhs._edges)
+        _edges.push_back(elem);
     
     _size = rhs._size;
 }
-
+ 
 graph &graph::operator=(const graph &rhs)
 {
-    for (const std::vector<int> elem : *rhs._matrix)
+    _matrix.clear();
+    _vertexes.clear();
+    _edges.clear();
+
+    for (const std::vector<int> elem : rhs._matrix)
     {
         std::vector<int> temp = std::move(elem);
-        _matrix->push_back(temp);
+        _matrix.push_back(temp);
     }
 
-    for (const std::pair<std::string, int> elem : *rhs._vertexes)
-        _vertexes->push_back(elem);
+    for (const std::pair<std::string, int> elem : rhs._vertexes)
+        _vertexes.push_back(elem);
 
-    for (const edge elem : *rhs._edges)
-        _edges->push_back(elem);
+    for (const edge elem : rhs._edges)
+        _edges.push_back(elem);
     
     _size = rhs._size;
 
     return *this;
 }
 
-graph::graph(graph &&rhs)
+graph::graph(graph &&rhs) noexcept
 {
-    delete _matrix;
-    delete _vertexes;
-    delete _edges;
-
-    _matrix = rhs._matrix;
-    _vertexes = rhs._vertexes;
-    _edges = rhs._edges;
+    _matrix = std::move(rhs._matrix);
+    _vertexes = std::move(rhs._vertexes);
+    _edges = std::move(rhs._edges);
     _size = rhs._size;
 
-    rhs._matrix = nullptr;
-    rhs._vertexes = nullptr;
-    rhs._edges = nullptr;
     rhs._size = 0;
 }
 
-graph& graph::operator=(graph&& rhs)
+graph& graph::operator=(graph &&rhs) noexcept
 {
     if (this == &rhs)
         return *this;
 
-    delete _matrix;
-    delete _vertexes;
-    delete _edges;
-
-    _matrix = rhs._matrix;
-    _vertexes = rhs._vertexes;
-    _edges = rhs._edges;
-    _size = rhs._size;
-
-    rhs._matrix = nullptr;
-    rhs._vertexes = nullptr;
-    rhs._edges = nullptr;
+    _matrix = std::move(rhs._matrix);
+    _vertexes = std::move(rhs._vertexes);
+    _edges = std::move(rhs._edges);
+    _size = std::move(rhs._size);
     rhs._size = 0;
 
     return *this;
@@ -96,10 +77,10 @@ graph& graph::operator=(graph&& rhs)
 
 void graph::addVertex(std::string x)
 {
-    _matrix->push_back(std::vector<int>(++_size, 0));
+    _matrix.push_back(std::vector<int>(++_size, 0));
 
-    _vertexes->push_back(std::pair(x, 0));
-    for (auto& row : *_matrix)
+    _vertexes.push_back(std::pair(x, 0));
+    for (auto& row : _matrix)
         row.push_back(0);
 }
 
@@ -108,7 +89,7 @@ void graph::removeVertex(std::string x)
     int index = -1;
 
     int i = 0;
-    for (const auto& vertex : *_vertexes)
+    for (const auto& vertex : _vertexes)
     {
         if (vertex.first == x)
         {
@@ -124,11 +105,11 @@ void graph::removeVertex(std::string x)
         return;
     }
 
-    _vertexes->erase(_vertexes->begin() + index);
+    _vertexes.erase(_vertexes.begin() + index);
 
-    _matrix->erase(_matrix->begin() + index);
+    _matrix.erase(_matrix.begin() + index);
 
-    for (auto& row : *_matrix)
+    for (auto& row : _matrix)
     {
         row.erase(row.begin() + index);
     }
@@ -138,7 +119,7 @@ void graph::removeVertex(std::string x)
 
 void graph::setVertexValue(std::string x, int v)
 {
-    for (auto& vertex : *_vertexes)
+    for (auto& vertex : _vertexes)
     {
         if (vertex.first == x)
         {
@@ -153,7 +134,7 @@ void graph::setVertexValue(std::string x, int v)
 
 int graph::getVertexValue(std::string x) const
 {
-    for (auto& vertex : *_vertexes)
+    for (auto& vertex : _vertexes)
     {
         if (vertex.first == x)
             return vertex.second;
@@ -169,7 +150,7 @@ void graph::addEdge(std::string x, std::string y)
     int yIndex = -1;
 
     int i = 0;
-    for (const auto& vertex : *_vertexes)
+    for (const auto& vertex : _vertexes)
     {
         if (vertex.first == x)
             xIndex = i;
@@ -186,10 +167,10 @@ void graph::addEdge(std::string x, std::string y)
         return;
     }
 
-    _matrix->at(xIndex).at(yIndex) = 1;
-    _matrix->at(yIndex).at(xIndex) = 1;
+    _matrix.at(xIndex).at(yIndex) = 1;
+    _matrix.at(yIndex).at(xIndex) = 1;
 
-    _edges->push_back(edge(x, y, DEFAULT_EDGE_VALUE));
+    _edges.push_back(edge(x, y, DEFAULT_EDGE_VALUE));
 }
 
 void graph::addEdge(std::string x, std::string y, int v)
@@ -203,7 +184,7 @@ void graph::removeEdge(std::string x, std::string y)
     int index = -1;
 
     int i = 0;
-    for (const auto& edge : *_edges)
+    for (const auto& edge : _edges)
     {
         if (edge.x == x and edge.y == y)
         {
@@ -213,13 +194,13 @@ void graph::removeEdge(std::string x, std::string y)
         i++;
     }
 
-    _edges->erase(_edges->begin() + index);
+    _edges.erase(_edges.begin() + index);
     
 }
 
 void graph::setEdgeValue(std::string x, std::string y, int v)
 {
-    for (auto& edge : *_edges)
+    for (auto& edge : _edges)
     {
         if (edge.x == x and edge.y == y)
         {
@@ -231,7 +212,7 @@ void graph::setEdgeValue(std::string x, std::string y, int v)
 
 int graph::getEdgeValue(std::string x, std::string y) const
 {
-    for (const auto& edge : *_edges)
+    for (const auto& edge : _edges)
         if (edge.x == x and edge.y == y)
             return edge.value;
 
@@ -241,7 +222,7 @@ int graph::getEdgeValue(std::string x, std::string y) const
 
 bool graph::adjacent(std::string x, std::string y) const
 {
-    for (const auto& edge : *_edges)
+    for (const auto& edge : _edges)
         if (edge.x == x and edge.y == y)
             return true;
 
@@ -252,7 +233,7 @@ std::vector<std::string> graph::neighbours(std::string x) const
 {   
     std::vector<std::string> result;
 
-    for (const auto& edge : *_edges)
+    for (const auto& edge : _edges)
     {
         std::string currentX = edge.x;
         std::string currentY = edge.y;
@@ -269,11 +250,11 @@ std::vector<std::string> graph::neighbours(std::string x) const
 
 void graph::printMatrix()
 {
-    for (const auto& vertex : *_vertexes)
+    for (const auto& vertex : _vertexes)
         std::cout << vertex.first << " ";
     std::cout << std::endl;
     
-    for (const auto& column : *_matrix)
+    for (const auto& column : _matrix)
     {      
         for (size_t j = 0; j < _size; j++)
             std::cout << column.at(j) << " ";
@@ -283,18 +264,18 @@ void graph::printMatrix()
 
 void graph::printVertexes()
 {
-    for (auto& pair : *_vertexes)
+    for (auto& pair : _vertexes)
         std::cout << pair.first << ": " << pair.second << std::endl;
 }
 
 std::string graph::getVertexes()
 {
-    if (_vertexes->empty())
+    if (_vertexes.empty())
         return "No vertexes";
 
     std::string result {};
 
-    for (const auto& elem : *_vertexes)
+    for (const auto& elem : _vertexes)
         result += elem.first + " value " + std::to_string(elem.second) + "\n";
     
     return result;
@@ -302,12 +283,12 @@ std::string graph::getVertexes()
 
 std::string graph::getEdges()
 {
-    if (_vertexes->empty())
+    if (_vertexes.empty())
         return "No edges";
 
     std::string result {};
 
-    for (const auto& elem : *_edges)
+    for (const auto& elem : _edges)
         result += elem.x + " -> " + elem.y + " value: " + std::to_string(elem.value) + "\n";
     
     return result;
@@ -323,14 +304,14 @@ void graph::createDotFile(int size, int dpi)
     dotFile << "\tsize=\"" << size << "," << size << "\";\n";
     dotFile << "\tdpi=" << dpi << ";\n";
 
-    for (const auto& edge : *_edges)
+    for (const auto& edge : _edges)
     {
         dotFile << "\t " << edge.x << " -> " << edge.y << "[label = " << edge.value << "];\n";
         vertexes.insert(edge.x);
         vertexes.insert(edge.y);
     }
 
-    for (const auto& vertex : *_vertexes)
+    for (const auto& vertex : _vertexes)
     {
         if (!vertexes.contains(vertex.first))
             dotFile << "\t " << vertex.first << "\n";

@@ -10,7 +10,7 @@ clean:
 
 test:
 	cd tests; \
-	g++ -std=c++20 tests.cpp ../graph.cpp -lgtest -lgtest_main -pthread -o test; \
+	g++ -std=c++20 test_constructors_and_assignment.cpp ../graph.cpp -lgtest -lgtest_main -pthread -o test; \
 	./test; \
 	rm -f test
 

@@ -23,9 +23,9 @@ private:
         int value;
     };
 
-    std::vector<std::vector<int>> *_matrix {};
-    std::vector<std::pair<std::string, int>> *_vertexes {};
-    std::vector<edge> *_edges {};
+    std::vector<std::vector<int>> _matrix;
+    std::vector<std::pair<std::string, int>>_vertexes;
+    std::vector<edge> _edges;
     int _size {};
 public:
     graph();
@@ -33,8 +33,8 @@ public:
     ~graph();
     graph(const graph &rhs);
     graph& operator=(const graph &rhs);
-    graph(graph &&rhs);
-    graph& operator=(graph &&rhs);
+    graph(graph &&rhs) noexcept;
+    graph& operator=(graph &&rhs) noexcept;
 
     void addVertex(std::string x);
     void removeVertex(std::string x);
