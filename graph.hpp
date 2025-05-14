@@ -36,7 +36,6 @@ public:
     graph(graph &&rhs);
     graph& operator=(graph &&rhs);
 
-
     void addVertex(std::string x);
     void removeVertex(std::string x);
     void setVertexValue(std::string x, int v);

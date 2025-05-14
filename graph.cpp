@@ -18,7 +18,7 @@ graph::~graph()
     delete _matrix;
 }
 
-graph::graph(const graph &rhs)
+graph::graph(const graph &rhs) : graph()
 {
     for (const std::vector<int> elem : *rhs._matrix)
     {
@@ -56,18 +56,39 @@ graph &graph::operator=(const graph &rhs)
 
 graph::graph(graph &&rhs)
 {
-    _matrix = std::move(rhs._matrix);
-    _vertexes = std::move(rhs._vertexes);
-    _edges = std::move(rhs._edges);
-    _size = std::move(rhs._size);
+    delete _matrix;
+    delete _vertexes;
+    delete _edges;
+
+    _matrix = rhs._matrix;
+    _vertexes = rhs._vertexes;
+    _edges = rhs._edges;
+    _size = rhs._size;
+
+    rhs._matrix = nullptr;
+    rhs._vertexes = nullptr;
+    rhs._edges = nullptr;
+    rhs._size = 0;
 }
 
-graph &graph::operator=(graph &&rhs)
+graph& graph::operator=(graph&& rhs)
 {
-    _matrix = std::move(rhs._matrix);
-    _vertexes = std::move(rhs._vertexes);
-    _edges = std::move(rhs._edges);
-    _size = std::move(rhs._size);
+    if (this == &rhs)
+        return *this;
+
+    delete _matrix;
+    delete _vertexes;
+    delete _edges;
+
+    _matrix = rhs._matrix;
+    _vertexes = rhs._vertexes;
+    _edges = rhs._edges;
+    _size = rhs._size;
+
+    rhs._matrix = nullptr;
+    rhs._vertexes = nullptr;
+    rhs._edges = nullptr;
+    rhs._size = 0;
 
     return *this;
 }
